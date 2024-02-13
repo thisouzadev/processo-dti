@@ -1,0 +1,79 @@
+{
+  "format": 1,
+  "restore": {
+    "/home/thiago/Documentos/dti/processo-dti/ReminderApp/ReminderApp.csproj": {}
+  },
+  "projects": {
+    "/home/thiago/Documentos/dti/processo-dti/ReminderApp/ReminderApp.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/thiago/Documentos/dti/processo-dti/ReminderApp/ReminderApp.csproj",
+        "projectName": "ReminderApp",
+        "projectPath": "/home/thiago/Documentos/dti/processo-dti/ReminderApp/ReminderApp.csproj",
+        "packagesPath": "/home/thiago/.nuget/packages/",
+        "outputPath": "/home/thiago/Documentos/dti/processo-dti/ReminderApp/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/thiago/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0": {
+            "targetAlias": "net9.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.OpenApi": {
+              "target": "Package",
+              "version": "[9.0.0-preview.1.24081.5, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[6.4.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/home/thiago/Downloads/dotnet/sdk/9.0.100-preview.1.24101.2/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
