@@ -1,12 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReminderService from '../service/reminder.service';
 
+interface Reminder {
+  id: number;
+  note: string;
+  date: Date;
+}
+
 const Reminder: React.FC = () => {
-  // Definindo um estado para armazenar um texto
+ 
   const [note, setNote] = useState<string>('');
   const [date, setDate] = useState<string>('');
-
-  // Função para atualizar o estado com o valor do input
+  const [reminders, setReminders] = useState<Reminder[]>([]);
+  
   const handleNoteChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNote(event.target.value);
   };
@@ -20,15 +26,46 @@ const Reminder: React.FC = () => {
       .create(note, date)
       .then(() => alert(`Remember to ${note} on ${date}`))
       .catch((error: Error) => alert(error.message));
-    // Realizar a lógica para criar um novo lembrete aqui
-    console.log('Novo lembrete criado:');
-    console.log('Nota:', note);
-    console.log('Data:', date);
-
-    // Limpar os inputs após a submissão
+      fetchReminders();
     setNote('');
     setDate('');
   };
+  const fetchReminders = async () => {
+    try {
+      new ReminderService()
+      .get()
+      .then((data) => {
+        setReminders(data);
+      })
+    } catch (error) {
+      console.error('Error fetching reminders:', error);
+    }
+  };
+  const handleDelete = (id: number) => {
+    if (window.confirm('Tem certeza de que deseja excluir este lembrete?')) {
+      new ReminderService()
+        .delete(id)
+        .then(() => {
+          alert('Reminder deleted successfully');
+          fetchReminders();
+        })
+        .catch((error: Error) => alert(error.message));
+    }
+  };
+  useEffect(() => {
+    fetchReminders();
+  }, []);
+
+  const groupedReminders = reminders.reduce((groups: { [date: string]: Reminder[] }, reminder) => {
+    const date = new Date(reminder.date); 
+    const dateKey = date.toDateString(); 
+    if (!groups[dateKey]) {
+      groups[dateKey] = [];
+    }
+    groups[dateKey].push(reminder);
+    return groups;
+  }, {});
+
   return (
     <div>
       <h1>Novo Lembrete</h1>
@@ -58,6 +95,23 @@ const Reminder: React.FC = () => {
 
         <button type="submit">Criar</button>
       </form>
+      <h1>Lista de lembretes</h1>
+      <ul>
+      {Object.entries(groupedReminders).map(([date, remindersForDate]) => (
+        <div key={date}>
+          <div>{date}</div>
+          <ul>
+            {remindersForDate.map((reminder) => (
+              <li key={reminder.id}>
+                {reminder.note}
+                <button onClick={() => handleDelete(reminder.id)}>x</button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </ul>
+
     </div>
   );
 };
