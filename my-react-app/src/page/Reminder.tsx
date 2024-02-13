@@ -10,25 +10,34 @@ interface Reminder {
 const Reminder: React.FC = () => {
  
   const [note, setNote] = useState<string>('');
-  const [date, setDate] = useState<string>('');
+  const [date, setDate] = useState<Date>();
   const [reminders, setReminders] = useState<Reminder[]>([]);
   
   const handleNoteChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNote(event.target.value);
   };
   const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setDate(event.target.value);
-  };
+    event.preventDefault(); 
+    const selectedDate = new Date(event.target.value);
+    const currentDate = new Date();
+    if (selectedDate < currentDate) {
+        alert('Por favor, selecione uma data futura.');
+        
+        event.preventDefault();
+    } else {  
+        setDate(event.target.value);
+    }
+};
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     new ReminderService()
       .create(note, date)
-      .then(() => alert(`Remember to ${note} on ${date}`))
+      .then(() => alert(`Lembre-se de ${note} em ${date}`))
       .catch((error: Error) => alert(error.message));
       fetchReminders();
     setNote('');
-    setDate('');
+    setDate(new Date());
   };
   const fetchReminders = async () => {
     try {
@@ -36,6 +45,8 @@ const Reminder: React.FC = () => {
       .get()
       .then((data) => {
         setReminders(data);
+        console.log(data);
+        
       })
     } catch (error) {
       console.error('Error fetching reminders:', error);
@@ -46,7 +57,7 @@ const Reminder: React.FC = () => {
       new ReminderService()
         .delete(id)
         .then(() => {
-          alert('Reminder deleted successfully');
+          alert('Lembrete excluído com sucesso');
           fetchReminders();
         })
         .catch((error: Error) => alert(error.message));
