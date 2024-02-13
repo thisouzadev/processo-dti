@@ -33,7 +33,9 @@ const Reminder: React.FC = () => {
     event.preventDefault();
     new ReminderService()
       .create(note, date)
-      .then(() => alert(`Lembre-se de ${note} em ${date}`))
+      .then(() => {alert(`Lembre-se de ${note} em ${date}`)
+      fetchReminders();
+    })
       .catch((error: Error) => alert(error.message));
       fetchReminders();
     setNote('');
@@ -45,8 +47,6 @@ const Reminder: React.FC = () => {
       .get()
       .then((data) => {
         setReminders(data);
-        console.log(data);
-        
       })
     } catch (error) {
       console.error('Error fetching reminders:', error);
