@@ -11,7 +11,7 @@ class ReminderService {
     }
   }
 
-  async create(note: string, date: string) {
+  async create(note: string, date: string | string) {
     try {
       const response = await axios.post("http://localhost:5130/api/reminder", {
         note,
@@ -34,7 +34,7 @@ class ReminderService {
     }
   }
 
-  async update(note: string, date: string, id: number) {
+  async update(note: string, date: string | string, id: number) {
     try {
       const response = await axios.put(`http://localhost:5130/api/reminder/${id}`, {
         note,
