@@ -1,13 +1,13 @@
-FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
 EXPOSE 80
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
-WORKDIR /src
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /
 COPY ["ReminderApp.csproj", ""]
 RUN dotnet restore "./ReminderApp.csproj"
 COPY . .
-WORKDIR "/src/."
+WORKDIR "/."
 RUN dotnet build "ReminderApp.csproj" -c Release -o /app/build
 
 FROM build AS publish
