@@ -6,6 +6,17 @@ using ReminderApp.Controllers; // Importe o namespace onde está o seu controlle
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.WithOrigins("http://localhost:5173")
+               .AllowAnyHeader()
+               .AllowAnyMethod();
+    });
+});
+
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -15,7 +26,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 
 var app = builder.Build();
-
+app.UseCors();
 // Configure o pipeline de solicitação HTTP.
 if (app.Environment.IsDevelopment())
 {
